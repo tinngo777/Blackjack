@@ -10,7 +10,12 @@ RANK_NAMES = {
     13: "King"
 }
 
+def format_card(card):
+    suit = card[0].capitalize()
+    rank = card[1]
 
+    display_rank = RANK_NAMES.get(rank, rank)
+    return f"{display_rank} of {suit}"
 
 
 if __name__ == "__main__":
@@ -29,21 +34,14 @@ if __name__ == "__main__":
     for name in players:
         players[name] = list(my_deck.shuffle() for _ in range(2))
 
-
-
     my_blackjack = Blackjack()
-    blackjack21 = False
-    blackjack21 = my_blackjack.auto_win(player_hand)
-    
-    
-    if blackjack21:
-        print("You got a hand of Blackjack -> Automatically win")
-        print(player_hand)
+    if my_blackjack.auto_win(player_hand):
+        print("You got a hand of Blackjack -> You Win!")
     else:
-        print("Here's your cards: ")
-        print(player_hand)
-        print("\nThe total is: ")
-        print(my_blackjack.calculate(player_hand))
-
-    print("Here are other players' hands.\n")
-    print(players)
+        print("Your cards: ", [format_card(c) for c in player_hand])
+        print("Total: ", my_blackjack.calculate(player_hand))
+    
+    print("\nOther Players:")
+    for name, hand in players.items():
+        bots_hand = [format_card(c) for c in hand]
+        print(f"{name}: {', '.join(bots_hand)}")

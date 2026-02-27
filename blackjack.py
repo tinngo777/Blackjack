@@ -13,17 +13,13 @@ class Blackjack:
             return True
 
     def calculate(self, player_hand):
-        ranks = [card[1] for card in player_hand]
-        has_ace = 1 in ranks
+        values = [(card[1] if card[1] <= 10 else 10) for card in player_hand]
+        has_ace = 1 in values
+        total = sum(values)
 
         
-        total = sum(card[1] for card in player_hand)
-        if total < 21 and has_ace == True:
-            if total + 10 > 21:
-                if total + 9 <= 21:
-                    total += 9
-            else:
-                total += 10
+        if has_ace and total + 10 <= 21:
+            total += 10
         
         return total
     
